@@ -1,0 +1,17 @@
+services:
+  backend:
+    image: sampleboi-backend
+    build: ./backend
+    volumes:
+      - ./backend:/app
+      - /app/.venv
+    ports:
+      - 80:80
+  frontend:
+    image: sampleboi-frontend
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - 5173:5173
