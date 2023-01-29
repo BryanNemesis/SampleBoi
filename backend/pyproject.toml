@@ -1,0 +1,19 @@
+[tool.pdm]
+[tool.pdm.scripts]
+dev = "uvicorn main:app --reload"
+
+[project]
+name = "SampleBoi-Backend"
+version = "0.0.1"
+description = ""
+authors = [
+    {name = "Igor Binkowski", email = "igorbinkowski1@gmail.com"},
+]
+dependencies = [
+    "fastapi>=0.89.1",
+    "uvicorn>=0.20.0",
+    "boto3>=1.26.59",
+    "python-dotenv>=0.21.1",
+]
+requires-python = ">=3.11"
+license = {text = "MIT"}

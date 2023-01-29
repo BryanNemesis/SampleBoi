@@ -1,0 +1,47 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+@keyframes button-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spin {
+    animation: button-spin infinite 2s linear;
+  }
+}
+
+.buttons-container {
+  display: grid;
+  grid-template-columns: 10em 10em;
+}
+
+.sound-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1em;
+
+  border: 0.2em white solid;
+  border-radius: 50%;
+  background-color: yellowgreen;
+  width: 8em;
+  height: 8em;
+  color: black;
+}
+
+.sound-button:active {
+  margin-left: 1.25em;
+  margin-top: 1.25em;
+  width: 7.5em;
+  height: 7.5em;
+}
