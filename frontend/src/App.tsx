@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import './App.css'
 import SoundBoard from './components/soundboard/SoundBoard'
+import Header from './components/header/Header'
 
 const App: React.FC = () => {
   const [samples, setSamples] = useState([])
@@ -11,15 +11,15 @@ const App: React.FC = () => {
       const data = await response.json()
       setSamples(data)
     }
-    
+
     getSamples()
   }, [])
 
   return (
-    <div className="App">
-      <h1>SampleBoi</h1>
+    <>
+      <Header />
       <SoundBoard samples={samples} />
-    </div>
+    </>
   )
 }
 
