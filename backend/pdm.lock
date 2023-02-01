@@ -98,6 +98,14 @@ requires_python = ">=3.7"
 summary = "Read key-value pairs from a .env file and set them as environment variables"
 
 [[package]]
+name = "python-multipart"
+version = "0.0.5"
+summary = "A streaming multipart parser for Python"
+dependencies = [
+    "six>=1.4.0",
+]
+
+[[package]]
 name = "s3transfer"
 version = "0.6.0"
 requires_python = ">= 3.7"
@@ -151,7 +159,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:9b802861cac077ca4aca2545f93ba45436e9ac88f6f943e987ed2a19c654167f"
+content_hash = "sha256:b2a7dc3242061019a4c8cd2ddbce10e9317bfc2e0656e2cf9f6164a56651e38c"
 
 [metadata.files]
 "anyio 3.6.2" = [
@@ -235,6 +243,9 @@ content_hash = "sha256:9b802861cac077ca4aca2545f93ba45436e9ac88f6f943e987ed2a19c
 "python-dotenv 0.21.1" = [
     {url = "https://files.pythonhosted.org/packages/64/62/f19d1e9023aacb47241de3ab5a5d5fedf32c78a71a9e365bb2153378c141/python_dotenv-0.21.1-py3-none-any.whl", hash = "sha256:41e12e0318bebc859fcc4d97d4db8d20ad21721a6aa5047dd59f090391cb549a"},
     {url = "https://files.pythonhosted.org/packages/f5/d7/d548e0d5a68b328a8d69af833a861be415a17cb15ce3d8f0cd850073d2e1/python-dotenv-0.21.1.tar.gz", hash = "sha256:1c93de8f636cde3ce377292818d0e440b6e45a82f215c3744979151fa8151c49"},
+]
+"python-multipart 0.0.5" = [
+    {url = "https://files.pythonhosted.org/packages/46/40/a933ac570bf7aad12a298fc53458115cc74053474a72fbb8201d7dc06d3d/python-multipart-0.0.5.tar.gz", hash = "sha256:f7bb5f611fc600d15fa47b3974c8aa16e93724513b49b5f95c81e6624c83fa43"},
 ]
 "s3transfer 0.6.0" = [
     {url = "https://files.pythonhosted.org/packages/5e/c6/af903b5fab3f9b5b1e883f49a770066314c6dcceb589cf938d48c89556c1/s3transfer-0.6.0-py3-none-any.whl", hash = "sha256:06176b74f3a15f61f1b4f25a1fc29a4429040b7647133a463da8fa5bd28d5ecd"},

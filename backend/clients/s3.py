@@ -31,3 +31,7 @@ def get_all_sample_urls():
         })
 
     return all_samples
+
+def upload_sample(file):
+    # TODO: do we need to use a context manager here?
+    client.upload_fileobj(file.file, settings.samples_bucket_name, file.filename)
