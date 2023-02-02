@@ -1,6 +1,6 @@
 [tool.pdm]
 [tool.pdm.scripts]
-server = "uvicorn main:app --reload --host 0.0.0.0 --port 80"
+server = "python3.11 -m uvicorn main:app --reload --host 0.0.0.0 --port 80"
 
 [project]
 name = "SampleBoi-Backend"

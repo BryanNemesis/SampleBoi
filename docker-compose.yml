@@ -4,7 +4,7 @@ services:
     build: ./backend
     volumes:
       - ./backend:/app
-      - /app/.venv
+      - /app/__pypackages__
     ports:
       - 80:80
   frontend:
