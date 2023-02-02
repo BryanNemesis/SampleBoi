@@ -1,5 +1,5 @@
+import json
 import boto3
-from botocore.exceptions import ClientError
 
 from config import settings
 
@@ -13,18 +13,16 @@ client = boto3.client(
 
 def get_all_sample_urls():
     objects = client.list_objects_v2(Bucket=settings.samples_bucket_name)
-    keys = [x['Key'] for x in objects['Contents']]
+    sorted_objects = sorted(objects['Contents'], key=lambda x: x['LastModified'])
+    keys = [object['Key'] for object in sorted_objects]
 
     all_samples = []
     for key in keys:
-        try:
-            response = client.generate_presigned_url(
-                "get_object",
-                Params={"Bucket": settings.samples_bucket_name, "Key": key},
-                ExpiresIn=3600,
-            )
-        except ClientError as e:
-            return None
+        response = client.generate_presigned_url(
+            "get_object",
+            Params={"Bucket": settings.samples_bucket_name, "Key": key},
+            ExpiresIn=3600,
+        )
         all_samples.append({
             'name': key,
             'url': response,
