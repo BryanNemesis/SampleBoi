@@ -27,7 +27,6 @@ async def samples_list():
 
 @app.post("/samples")
 async def upload_sample(file: UploadFile):
-    print(file)
     s3.upload_sample(file)
     
     return
