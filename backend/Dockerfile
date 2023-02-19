@@ -6,4 +6,4 @@ COPY pyproject.toml pdm.lock ./
 RUN mkdir __pypackages__ && pdm install
 COPY . .
 
-CMD pdm run server
+CMD ["pdm", "run", "server"]
