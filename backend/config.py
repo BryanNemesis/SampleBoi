@@ -1,4 +1,5 @@
 from functools import lru_cache
+import logging
 
 from pydantic import BaseSettings
 
@@ -14,3 +15,8 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 settings = Settings()
+
+
+class HealthCheckFilter(logging.Filter):
+    def filter(self, record):
+        return record.getMessage().find("/health") == -1

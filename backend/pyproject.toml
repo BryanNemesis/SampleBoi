@@ -1,6 +1,6 @@
 [tool.pdm]
 [tool.pdm.scripts]
-server = "python3.11 -m uvicorn main:app --reload --host 0.0.0.0 --port 80"
+server = "python3.11 -m uvicorn main:app --reload --host 0.0.0.0 --port 80 --log-config ./logging.yaml"
 
 [project]
 name = "SampleBoi-Backend"
@@ -17,6 +17,7 @@ dependencies = [
     "python-multipart>=0.0.5",
     "pytest>=7.2.1",
     "httpx>=0.23.3",
+    "pyyaml>=6.0",
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}
