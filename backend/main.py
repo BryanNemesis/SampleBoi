@@ -7,6 +7,7 @@ app = FastAPI()
 
 origins = [
     "http://127.0.0.1:5173",
+    "https://sampleboi.bryannemesis.de",
 ]
 
 app.add_middleware(
@@ -16,6 +17,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/health")
+async def health_check():
+    return
 
 
 @app.get("/samples")
