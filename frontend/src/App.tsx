@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import SoundBoard from './components/soundboard/SoundBoard'
 import Header from './components/header/Header'
-import Uploader from './components/inputs/Uploader'
+import mock_samples from './mock_samples.json'
 
 const App: React.FC = () => {
   const [samples, setSamples] = useState([])
@@ -18,9 +18,9 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <Uploader getSamples={getSamples} />
-      <SoundBoard samples={samples} />
+      <Header getSamples={getSamples} />
+      {/* <SoundBoard samples={samples} /> */}
+      <SoundBoard samples={mock_samples} />
     </>
   )
 }

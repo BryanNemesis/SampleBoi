@@ -24,24 +24,19 @@ const SoundButton: React.FC<Props> = ({ name, url }) => {
     }
   }
 
+  const cropText = (text: string) => {
+    return text.length > 12 ? text.substring(0, 12) + '···' : text
+  }
+
   return (
-    <div onClick={handleClick} className='active:scale-90'>
-      {/* button background */}
+    <div>
+      <div className="m-px text-xs uppercase text-zinc-100">{cropText(name)}</div>
       <div
-        className="absolute -my-2 -mx-3 h-32 w-32 md:h-40 md:w-40
-        skew-x-3 skew-y-6 rounded-full border-4 border-slate-500 bg-slate-400"
+        onClick={handleClick}
+        className={`h-32 w-32 rounded-md border-2 border-zinc-300 active:border-zinc-400 active:shadow-inner active:shadow-zinc-500 ${
+          isPlaying ? 'bg-red-800' : 'bg-zinc-800'
+        }`}
       ></div>
-      {/* button foreground */}
-      <div
-        className={`border-1 flex h-28 w-28 md:h-36 md:w-36 skew-x-3 skew-y-6 flex-col justify-center 
-        rounded-full border-2 border-slate-700 bg-slate-300
-        align-middle text-slate-800 ${ isPlaying ? 'bg-wavy-red' : 'bg-wavy-amber'}`}
-      >
-        <div className="flex h-4/5 w-4/5 flex-col justify-center self-center overflow-clip text-center align-middle">
-          <span className="text-center text-sm md:text-base">{name}</span>
-          <i className={`fa-solid mt-2 ${isPlaying ? 'animate-ping fa-volume-high' : 'fa-play'}`}></i>
-        </div>
-      </div>
     </div>
   )
 }

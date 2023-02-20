@@ -1,8 +1,17 @@
-const Header: React.FC = () => {
+import Uploader from './UploadBox'
+
+interface Props {
+  getSamples: Function
+}
+
+const Header: React.FC<Props> = ({ getSamples }) => {
   return (
-    <h1 className="animate-wiggle pt-8  pb-8 text-center text-6xl font-extrabold text-slate-50 text-shadow-lg-amber md:pt-16 md:pb-16 md:text-8xl">
-      SampleBoi
-    </h1>
+    <div className="flex items-center justify-between p-4 sm:p-8">
+      <h1 className="text-3xl font-extrabold uppercase text-zinc-50 text-shadow-rose sm:text-6xl">
+        SampleBoi
+      </h1>
+      <Uploader getSamples={getSamples} />
+    </div>
   )
 }
 

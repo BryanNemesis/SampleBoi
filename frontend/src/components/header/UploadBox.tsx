@@ -4,7 +4,7 @@ interface Props {
   getSamples: Function
 }
 
-const fileTypes = ['TSX', 'MP3', 'WAV', 'AIFF', 'FLAC']
+const fileTypes = ['MP3', 'WAV', 'AIFF', 'FLAC']
 
 const Uploader: React.FC<Props> = ({ getSamples }) => {
   const handleChange = async (file: File) => {
@@ -22,14 +22,14 @@ const Uploader: React.FC<Props> = ({ getSamples }) => {
   }
 
   const uploaderHtml = (
-    <div className="flex flex-col rounded-md border-2 border-dashed border-slate-300 bg-slate-800 p-6 text-slate-100 opacity-80">
+    <div className="flex flex-col rounded-md border-2 border-dashed border-zinc-300 bg-zinc-800 p-3 text-zinc-50 opacity-80 sm:p-6">
       <i className="fa-solid fa-upload mb-3 self-center"></i>
-      <div>Drop your sample file here</div>
+      <div className="text-xs uppercase sm:text-sm">Drop sample here</div>
     </div>
   )
 
   return (
-    <div className="mb-20 flex flex-row justify-center">
+    <div className="flex flex-row justify-center">
       <FileUploader
         handleChange={handleChange}
         name="file"

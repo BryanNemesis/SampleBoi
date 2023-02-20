@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Rajdhani', 'Helvetica', 'sans-serif'],
+        sans: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
       },
       keyframes: {
         wiggle: {
@@ -18,15 +18,21 @@ module.exports = {
       animation: {
         wiggle: 'wiggle 10s ease-in-out infinite',
       },
+      gridTemplateColumns: {
+        2: 'repeat(2, 9rem)',
+        4: 'repeat(4, 9rem)',
+        6: 'repeat(6, 9rem)',
+        8: 'repeat(8, 9rem)',
+      },
     },
   },
   plugins: [
     plugin(({ addUtilities }) => {
       addUtilities({
-        '.text-shadow-lg-amber': {
-          'text-shadow': '#fde68a 0 0 8px',
+        '.text-shadow-rose': {
+          'text-shadow': '#e11d48 2px 2px 0',
         },
-        '.bg-wavy-amber': {
+        '.bg-wavy-rose': {
           'background-color': '#fffbeb',
           opacity: 0.8,
           'background-image':

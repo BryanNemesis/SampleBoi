@@ -13,10 +13,11 @@ const SoundBoard: React.FC<Props> = ({ samples }) => {
   ))
 
   return (
-    <div className="mt-12 flex justify-center">
-      <div className="l:w-3/5 grid w-2/3 -skew-y-3 grid-cols-2 justify-items-center gap-x-12 gap-y-16 align-middle md:grid-cols-3 xl:w-1/2 2xl:grid-cols-4">
-        {buttons}
-      </div>
+    <div
+      className="grid grid-cols-2 justify-center justify-items-center gap-y-4 p-4 sm:grid-cols-4
+    sm:p-8 lg:grid-cols-6 xl:grid-cols-8"
+    >
+      {buttons}
     </div>
   )
 }
