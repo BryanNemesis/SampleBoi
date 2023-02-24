@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+        digital: ['Digital Display', 'sans-serif']
       },
       keyframes: {
         wiggle: {
@@ -27,6 +28,17 @@ module.exports = {
     },
   },
   plugins: [
+    plugin(({ addBase }) => {
+      addBase({
+        'digital': {
+          '@font-face': {
+            'font-family': "Digital Display",
+            'src': 'url("./src/assets/Seven Segment.ttf") format("truetype")'
+          }
+        }
+      })
+    }),
+
     plugin(({ addUtilities }) => {
       addUtilities({
         '.text-shadow-rose': {
