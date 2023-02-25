@@ -14,7 +14,8 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    getSamples()
+    // getSamples()
+    console.log('hello')
   }, [])
 
   return (
