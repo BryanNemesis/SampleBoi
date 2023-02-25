@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
-        digital: ['Digital Display', 'sans-serif']
+        digital: ['Digital', 'sans-serif']
       },
       keyframes: {
         wiggle: {
@@ -19,12 +19,6 @@ module.exports = {
       animation: {
         wiggle: 'wiggle 10s ease-in-out infinite',
       },
-      gridTemplateColumns: {
-        2: 'repeat(2, 9rem)',
-        4: 'repeat(4, 9rem)',
-        6: 'repeat(6, 9rem)',
-        8: 'repeat(8, 9rem)',
-      },
     },
   },
   plugins: [
@@ -32,8 +26,8 @@ module.exports = {
       addBase({
         'digital': {
           '@font-face': {
-            'font-family': "Digital Display",
-            'src': 'url("./src/assets/Seven Segment.ttf") format("truetype")'
+            'font-family': "Digital",
+            'src': 'url("./src/assets/Minecraft.ttf") format("truetype")'
           }
         }
       })
@@ -57,6 +51,18 @@ module.exports = {
           'background-image':
             'radial-gradient(circle at center center, #fca5a5, #fee2e2), repeating-radial-gradient(circle at center center, #fca5a5, #fca5a5, 10px, transparent 20px, transparent 10px)',
           'background-blend-mode': 'multiply',
+        },
+        '.button-cols-2': {
+          'grid-template-columns': 'repeat(2, 9rem)',
+        },
+        '.button-cols-4': {
+          'grid-template-columns': 'repeat(4, 9rem)',
+        },
+        '.button-cols-6': {
+          'grid-template-columns': 'repeat(6, 9rem)',
+        },
+        '.button-cols-8': {
+          'grid-template-columns': 'repeat(8, 9rem)',
         },
       })
     }),

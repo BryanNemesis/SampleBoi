@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Input from './Input'
+import Input from './inputs/Input'
 import SubmitButton from './SubmitButton'
 import Opener from './Opener'
 
@@ -14,10 +14,10 @@ const SampleUploadPanel: React.FC = () => {
     return (
       <div className="flex flex-col gap-y-1 p-4 text-sm uppercase">
         <Input label="name" type="text" placeholder="max 15 chars" />
-        <Input label="from file" type="placeholder" placeholder="choose file" />
+        <Input label="from file" type="filepicker" />
         <Input label="from youtube" type="text" placeholder="vid url" />
-        <Input label="playback mode" type="placeholder" placeholder="oneshot" />
-        <Input label="color" type="placeholder" placeholder="grey" />
+        <Input label="playback mode" type="switcher" />
+        <Input label="color" type="colorpicker" />
         <SubmitButton />
       </div>
     )

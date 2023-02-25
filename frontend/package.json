@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "react": "^18.2.0",
+    "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.8",
+    "use-file-picker": "^1.5.2",
     "use-sound": "^4.0.1"
   },
   "devDependencies": {

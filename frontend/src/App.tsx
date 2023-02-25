@@ -19,7 +19,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Header getSamples={getSamples} />
+      <Header />
       <SampleUploadPanel />
       {/* <SoundBoard samples={samples} /> */}
       <SoundBoard samples={mock_samples} />
