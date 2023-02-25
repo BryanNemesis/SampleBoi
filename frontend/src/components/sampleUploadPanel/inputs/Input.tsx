@@ -1,32 +1,28 @@
 import ColorPicker from './ColorPicker'
 import FilePicker from './FilePicker'
 import Switcher from './Switcher'
+import TextInput from './TextInput'
 
 interface Props {
   label: string
   type: string
+  // TODO: I should propably type this as string | File but idc for now
+  handler: (arg: any) => void
   placeholder?: string
+  options?: string[]
 }
 
-const Input: React.FC<Props> = ({ label, type, placeholder = '' }) => {
+const Input: React.FC<Props> = ({ label, type, handler, placeholder = '', options = [] }) => {
   const input = (type: string) => {
     switch (type) {
       case 'text':
-        return (
-          <input
-            type="text"
-            className="w-1/2 rounded-md bg-black pt-px pr-1 text-right font-digital uppercase tracking-wide text-lime-400 placeholder-lime-800 sm:pt-1"
-            placeholder={placeholder}
-          ></input>
-        )
+        return <TextInput handler={handler} placeholder={placeholder} />
       case 'filepicker':
-        return <FilePicker />
+        return <FilePicker handler={handler} />
       case 'switcher':
-        return <Switcher options={['oneshot', 'start/stop']} />
+        return <Switcher handler={handler} options={options} />
       case 'colorpicker':
-        return <ColorPicker />
-      case 'placeholder':
-        return <div>{placeholder}</div>
+        return <ColorPicker handler={handler} />
     }
   }
 

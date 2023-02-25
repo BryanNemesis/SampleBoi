@@ -2,9 +2,14 @@ import { useCallback, useRef, useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import useClickOutside from './UseClickOutside'
 
-const ColorPicker: React.FC = () => {
+interface Props {
+  handler: (color: string) => void
+}
+
+const ColorPicker: React.FC<Props> = ({ handler }) => {
   const popover = useRef<any>()
   const [open, setOpen] = useState(false)
+  // TODO: the default color is defined both here and in the SampleUpload panel, wont this be a problem?
   const [color, setColor] = useState('#27272a')
 
   // TODO: save favorite colors for a user??
@@ -44,18 +49,23 @@ const ColorPicker: React.FC = () => {
   const close = useCallback(() => setOpen(false), [])
   useClickOutside(popover, close)
 
+  const onChange = (color: string) => {
+    setColor(color)
+    handler(color)
+  }
+
   return (
     <>
       {open && (
         <div ref={popover} className="z-0 -mr-32 rounded-md bg-slate-200 sm:-mr-72">
-          <HexColorPicker color={color} onChange={setColor} />
+          <HexColorPicker color={color} onChange={onChange} />
           <div className="grid grid-cols-8 p-1">
             {presetColors.map(presetColor => (
               <button
                 key={presetColor}
                 className="m-0.5 h-5 w-5 cursor-pointer rounded-md"
                 style={{ background: presetColor }}
-                onClick={() => setColor(presetColor)}
+                onClick={() => onChange(presetColor)}
               />
             ))}
           </div>
