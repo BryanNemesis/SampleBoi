@@ -1,7 +1,8 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from clients import s3
+from models import Sample
+from clients import ddb
 
 app = FastAPI()
 
@@ -23,15 +24,17 @@ async def health_check():
     return
 
 
-@app.get("/samples")
-async def samples_list():
-    urls = s3.get_all_sample_urls()
 
-    return urls
+@app.get("/samples")
+async def get_all_samples():
+    return ddb.get_all_samples()
 
 
 @app.post("/samples")
-async def upload_sample(file: UploadFile):
-    s3.upload_sample(file)
+async def create_sample(sample: Sample):
+    return ddb.create_sample(sample)
+# @app.post("/samples")
+# async def upload_sample(file: UploadFile):
+#     s3.upload_sample(file)
     
-    return
+#     return
