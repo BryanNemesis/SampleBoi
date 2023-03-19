@@ -2,6 +2,10 @@
 [tool.pdm.scripts]
 server = "python3.11 -m uvicorn main:app --reload --host 0.0.0.0 --port 80 --log-config ./logging.yaml"
 
+# don't not treat this service as a package
+[tool.setuptools]
+py-modules = []
+
 [project]
 name = "SampleBoi-Backend"
 version = "0.0.1"
