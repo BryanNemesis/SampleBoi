@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     aws_secret_access_key: str
     aws_region: str
     samples_bucket_name: str
+    ddb_table_name: str
 
     class Config:
         env_file = ".env"

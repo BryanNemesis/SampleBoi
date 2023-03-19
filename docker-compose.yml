@@ -15,3 +15,11 @@ services:
       - /app/node_modules
     ports:
       - 5173:5173
+  db:
+    image: amazon/dynamodb-local
+    ports:
+      - 8000:8000
+    command: "-jar DynamoDBLocal.jar -sharedDb"
+    volumes:
+      - "./local_db/data:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
