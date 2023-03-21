@@ -1,7 +1,15 @@
+from typing import Literal
 from pydantic import BaseModel
 
-class Sample(BaseModel):
+
+# TODO: I'd like to use more matching Pydantic types but they're not compatible with DDB deserializer.
+class SampleBase(BaseModel):
     name: str
-    mode: str
+    mode: Literal["oneshot", "start/stop"]
     color: str
-    url: str
+    file_url: str
+
+
+class Sample(SampleBase):
+    id: str
+    clicks: int

@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+import uuid
+from models import Sample
+from fastapi import FastAPI, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from models import Sample
-from clients import ddb
+
+from clients import ddb, s3
 
 app = FastAPI()
 
@@ -19,22 +21,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/health")
 async def health_check():
     return
 
 
-
 @app.get("/samples")
-async def get_all_samples():
+async def get_all_samples() -> list[Sample]:
     return ddb.get_all_samples()
 
 
 @app.post("/samples")
-async def create_sample(sample: Sample):
-    return ddb.create_sample(sample)
-# @app.post("/samples")
-# async def upload_sample(file: UploadFile):
-#     s3.upload_sample(file)
-    
-#     return
+# TODO: can I put these arguments into a model?
+async def create_sample(
+    file: UploadFile | None,
+    name: str = Form(...),
+    mode: str = Form(...),
+    color: str = Form(...),
+) -> Sample:
+    sample = Sample(
+        name=name,
+        mode=mode,
+        color=color,
+        file_url=s3.upload_sample(file),
+        id=str(uuid.uuid4()),
+        clicks=0,
+    )
+    ddb.save_sample(sample)
+    return sample

@@ -1,5 +1,3 @@
-import random
-
 import boto3
 from boto3.dynamodb.types import TypeDeserializer, TypeSerializer
 
@@ -8,12 +6,8 @@ from models import Sample
 
 client = boto3.client(
     "dynamodb",
-    # TODO: change these settings to be dev/prod
-    endpoint_url="http://db:8000",
-    aws_access_key_id="",
-    aws_secret_access_key="",
-    # aws_access_key_id=settings.aws_access_key_id,
-    # aws_secret_access_key=settings.aws_secret_access_key,
+    aws_access_key_id=settings.aws_access_key_id,
+    aws_secret_access_key=settings.aws_secret_access_key,
     region_name=settings.aws_region,
 )
 
@@ -28,10 +22,9 @@ def get_all_samples():
     ]
 
 
-def create_sample(sample: Sample):
-    item = {**sample.dict(), "id": random.randint(0, 999999), "clicks": 0}
+def save_sample(sample: Sample):
     serializer = TypeSerializer()
-    return client.put_item(
+    client.put_item(
         TableName=settings.ddb_table_name,
-        Item={k: serializer.serialize(v) for k, v in item.items()},
+        Item={k: serializer.serialize(v) for k, v in sample.dict().items()},
     )
