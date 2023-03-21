@@ -1,15 +1,18 @@
-import SoundButton from './SoundButton'
+import SoundButton from "./SoundButton"
 
 interface Props {
   samples: {
     name: string
-    url: string
+    color: string
+    mode: string
+    file_url: string
+    clicks: number
   }[]
 }
 
 const SoundBoard: React.FC<Props> = ({ samples }) => {
-  const buttons = samples.map(sample => (
-    <SoundButton key={sample.name} name={sample.name} url={sample.url} />
+  const buttons = samples.map((sample) => (
+    <SoundButton key={sample.name} name={sample.name} url={sample.file_url} />
   ))
 
   return (
