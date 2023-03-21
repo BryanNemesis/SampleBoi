@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import SoundBoard from "./components/soundboard/SoundBoard"
 import Header from "./components/header/Header"
 import SampleUploadPanel from "./components/sampleUploadPanel/SampleUploadPanel"
+import Sample from "./types/Sample"
 
 const App: React.FC = () => {
-  const [samples, setSamples] = useState([])
+  const [samples, setSamples] = useState<Sample[]>([])
 
   const getSamples = async () => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}samples`)

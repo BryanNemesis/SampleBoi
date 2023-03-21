@@ -1,14 +1,14 @@
 import useSound from 'use-sound'
 import { useState } from 'react'
+import Sample from '../../types/Sample'
 
 interface Props {
-  name: string
-  url: string
+  sample: Sample
 }
 
-const SoundButton: React.FC<Props> = ({ name, url }) => {
+const SoundButton: React.FC<Props> = ({ sample }) => {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [play, { stop }] = useSound(url, {
+  const [play, { stop }] = useSound(sample.file_url, {
     onend: () => {
       setIsPlaying(false)
     },
@@ -30,7 +30,7 @@ const SoundButton: React.FC<Props> = ({ name, url }) => {
 
   return (
     <div>
-      <div className="m-px text-xs uppercase text-zinc-100">{cropText(name)}</div>
+      <div className="m-px text-xs uppercase text-zinc-100">{cropText(sample.name)}</div>
       <div
         onClick={handleClick}
         className={`h-32 w-32 rounded-md border-2 border-zinc-300 active:border-zinc-400 active:shadow-inner active:shadow-zinc-500 ${
