@@ -36,33 +36,35 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
     return text.length > 12 ? text.substring(0, 12) + "···" : text
   }
 
-  const headerIcons = () => {
-    return sample.mode === "oneshot" ? (
-      <span className="material-icons text-sm text-zinc-100">start</span>
-    ) : (
-      <>
-        <span className="material-icons text-sm text-zinc-100 -mr-1">play_arrow</span>
-        <span className="material-icons text-sm text-zinc-100 -ml-px">pause</span>
-      </>
-    )
-  }
-
   return (
-    <div>
-      <div className="flex">
-        <div className="m-px text-xs uppercase text-zinc-100 flex-1">
-          {cropText(sample.name)}
+    <>
+      <div>
+        {isPlaying && (
+          <div className="absolute mt-5 h-32 w-32 animate-pulse rounded-md bg-transparent slate-glow"></div>
+        )}
+        <div
+          onClick={sample.mode === "oneshot" ? oneshotPlay : startStopPlay}
+          className="absolute mt-5 h-32 w-32 rounded-md bg-transparent active:slate-glow"
+        ></div>
+        <div className="flex">
+          <div className="m-px flex-1 text-xs uppercase text-zinc-100">
+            {cropText(sample.name)}
+          </div>
+          <i
+            className={`fa-solid text-xs text-zinc-100 ${
+              sample.mode === "oneshot" ? "fa-gun" : "fa-faucet"
+            }`}
+          ></i>
         </div>
-        {headerIcons()}
+        <div
+          onClick={sample.mode === "oneshot" ? oneshotPlay : startStopPlay}
+          className={`h-32 w-32 rounded-md border-2 border-zinc-300 ${
+            isPlaying && "bg-red-800"
+          }`}
+          style={{ backgroundColor: sample.color }}
+        ></div>
       </div>
-      <div
-        onClick={sample.mode === "oneshot" ? oneshotPlay : startStopPlay}
-        className={`h-32 w-32 rounded-md border-2 border-zinc-300 active:border-zinc-400 active:shadow-inner active:shadow-zinc-500 ${
-          isPlaying && "bg-red-800"
-        }`}
-        style={{ backgroundColor: sample.color }}
-      ></div>
-    </div>
+    </>
   )
 }
 

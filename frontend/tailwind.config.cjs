@@ -38,6 +38,12 @@ module.exports = {
         '.text-shadow-rose': {
           'text-shadow': '#e11d48 2px 2px 0',
         },
+        '.slate-glow': {
+          'box-shadow': '#f8fafc 0 0 32px, #e2e8f0 0 0 96px, #e2e8f0 0 0 96px inset',
+        },
+        '.lime-glow': {
+          'box-shadow': '#d9f99d 0 0 32px, #ecfccb 0 0 96px, #d9f99d 0 0 96px inset',
+        },
         '.bg-wavy-rose': {
           'background-color': '#fffbeb',
           opacity: 0.8,
