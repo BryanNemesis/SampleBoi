@@ -12,9 +12,12 @@ client = boto3.client(
 )
 
 
-def get_all_samples():
+def get_all_samples(sort_by: str):
     # TODO: We'll need some pagination here
-    scanned_data = client.scan(TableName=settings.ddb_table_name)["Items"]
+    if sort_by == "date":
+        scanned_data = client.scan(TableName=settings.ddb_table_name, IndexName='time_added-index')["Items"]
+    else:
+        scanned_data = client.scan(TableName=settings.ddb_table_name)["Items"]
     deserializer = TypeDeserializer()
     return [
         Sample(**{k: deserializer.deserialize(v) for k, v in sample.items()})

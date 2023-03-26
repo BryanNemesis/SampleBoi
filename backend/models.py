@@ -13,3 +13,4 @@ class SampleBase(BaseModel):
 class Sample(SampleBase):
     id: str
     clicks: int
+    time_added: int

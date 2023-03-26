@@ -1,6 +1,7 @@
+import time
 import uuid
 from models import Sample
-from fastapi import FastAPI, Form, UploadFile
+from fastapi import FastAPI, Form, UploadFile, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -28,8 +29,8 @@ async def health_check():
 
 
 @app.get("/samples")
-async def get_all_samples() -> list[Sample]:
-    return ddb.get_all_samples()
+async def get_all_samples(sort_by: str) -> list[Sample]:
+    return ddb.get_all_samples(sort_by)
 
 
 @app.post("/samples")
@@ -47,6 +48,7 @@ async def create_sample(
         file_url=s3.upload_sample(file),
         id=str(uuid.uuid4()),
         clicks=0,
+        time_added=time.time_ns()
     )
     ddb.save_sample(sample)
     return sample
