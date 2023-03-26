@@ -18,7 +18,7 @@ const Switcher: React.FC<Props> = ({ handler, options }) => {
 
   return (
     <div onClick={handleClick} className="flex items-center gap-x-2">
-      <div>{options[position]}</div>
+      <div className='text-zinc-100'>{options[position]}</div>
       <i className="fa-solid fa-repeat text-lime-400"></i>
     </div>
   )
