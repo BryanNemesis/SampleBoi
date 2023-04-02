@@ -1,6 +1,7 @@
 import boto3
 
 from config import settings
+from fastapi import UploadFile
 
 client = boto3.client(
     "s3",
@@ -10,6 +11,7 @@ client = boto3.client(
 )
 
 
-def upload_sample(file):
-    client.upload_fileobj(file.file, settings.samples_bucket_name, file.filename)
-    return f"https://{settings.samples_bucket_name}.s3.amazonaws.com/{file.filename}"
+def upload_sample(file: UploadFile):
+    filename = file.filename.replace(" ", "_")
+    client.upload_fileobj(file.file, settings.samples_bucket_name, filename)
+    return f"https://{settings.samples_bucket_name}.s3.amazonaws.com/{filename}"
