@@ -1,11 +1,12 @@
-import time
-import uuid
-from models import Sample
-from fastapi import FastAPI, Form, UploadFile, Query
+import schema
+from clients.db import models, crud
+from clients.db.db import SessionLocal, engine
+from fastapi import FastAPI, Form, UploadFile, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
 
 
-from clients import ddb, s3
+from clients import s3
 
 app = FastAPI()
 
@@ -23,14 +24,28 @@ app.add_middleware(
 )
 
 
+models.Base.metadata.create_all(bind=engine)
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 @app.get("/health")
 async def health_check():
     return
 
 
-@app.get("/samples")
-async def get_all_samples(sort_by: str) -> list[Sample]:
-    return ddb.get_all_samples(sort_by)
+@app.get("/samples", response_model=list[schema.Sample])
+async def get_all_samples(
+    skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
+):
+    samples = crud.get_samples(db, skip=skip, limit=limit)
+    return samples
 
 
 @app.post("/samples")
@@ -40,15 +55,11 @@ async def create_sample(
     name: str = Form(...),
     mode: str = Form(...),
     color: str = Form(...),
-) -> Sample:
-    sample = Sample(
-        name=name,
-        mode=mode,
-        color=color,
-        file_url=s3.upload_sample(file),
-        id=str(uuid.uuid4()),
-        clicks=0,
-        time_added=time.time_ns()
+    db: Session = Depends(get_db),
+):
+    return crud.create_sample(
+        db,
+        sample=schema.SampleCreate(
+            name=name, mode=mode, color=color, file_url=s3.upload_sample(file)
+        ),
     )
-    ddb.save_sample(sample)
-    return sample

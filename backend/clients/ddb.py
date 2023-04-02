@@ -2,7 +2,7 @@ import boto3
 from boto3.dynamodb.types import TypeDeserializer, TypeSerializer
 
 from config import settings
-from models import Sample
+from schema import Sample
 
 client = boto3.client(
     "dynamodb",
