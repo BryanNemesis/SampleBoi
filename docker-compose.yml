@@ -7,6 +7,10 @@ services:
       - /app/__pypackages__
     ports:
       - 80:80
+    depends_on:
+      - db
+    links:
+      - db
   frontend:
     image: sampleboi-frontend
     build: ./frontend
@@ -16,7 +20,9 @@ services:
     ports:
       - 5173:5173
   db:
-    image: amazon/dynamodb-local
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
     ports:
-      - 8000:8000
-    command: "-jar DynamoDBLocal.jar -sharedDb"
+      - 6543:5432
