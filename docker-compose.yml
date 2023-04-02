@@ -1,9 +1,9 @@
 services:
-  backend:
-    image: sampleboi-backend
-    build: ./backend
+  api:
+    image: sampleboi-api
+    build: ./api
     volumes:
-      - ./backend:/app
+      - ./api:/app
       - /app/__pypackages__
     ports:
       - 80:80
@@ -12,10 +12,10 @@ services:
     links:
       - db
   frontend:
-    image: sampleboi-frontend
-    build: ./frontend
+    image: sampleboi-ui
+    build: ./ui
     volumes:
-      - ./frontend:/app
+      - ./ui:/app
       - /app/node_modules
     ports:
       - 5173:5173
