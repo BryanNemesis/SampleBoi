@@ -1,9 +1,11 @@
 services:
   api:
     image: sampleboi-api
-    build: ./api
+    env_file:
+      - ./api2/.env.dev
+    build: ./api2
     volumes:
-      - ./api:/app
+      - ./api2:/app
       - /app/__pypackages__
     ports:
       - 80:80
@@ -11,7 +13,7 @@ services:
       - db
     links:
       - db
-  frontend:
+  ui:
     image: sampleboi-ui
     build: ./ui
     volumes:
@@ -21,8 +23,13 @@ services:
       - 5173:5173
   db:
     image: postgres
-    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_PASSWORD: password
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
     ports:
       - 6543:5432
+volumes:
+  postgres_data:

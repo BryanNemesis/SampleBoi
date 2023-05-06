@@ -1,29 +1,25 @@
 [tool.pdm]
 [tool.pdm.scripts]
-server = "python3.11 -m uvicorn main:app --reload --host 0.0.0.0 --port 80 --log-config ./logging.yaml"
+server = "python3.11 -m uvicorn sampleboi_api.asgi:application --reload --host 0.0.0.0 --port 80"
 
 # don't not treat this service as a package
 [tool.setuptools]
 py-modules = []
 
 [project]
-name = "SampleBoi-Backend"
-version = "0.0.1"
+name = ""
+version = ""
 description = ""
 authors = [
-    {name = "Igor Binkowski", email = "igorbinkowski1@gmail.com"},
+    {name = "Igor Bińkowski", email = "igorbinkowski1@gmail.com"},
 ]
 dependencies = [
-    "fastapi>=0.89.1",
-    "uvicorn>=0.20.0",
-    "boto3>=1.26.59",
-    "python-dotenv>=0.21.1",
-    "python-multipart>=0.0.5",
-    "pytest>=7.2.1",
-    "httpx>=0.23.3",
-    "pyyaml>=6.0",
-    "sqlalchemy>=2.0.7",
-    "psycopg2>=2.9.5",
+    "django>=4.2.1",
+    "djangorestframework>=3.14.0",
+    "uvicorn>=0.22.0",
+    "psycopg2>=2.9.6",
+    "psycopg2-binary>=2.9.6",
+    "django-extensions>=3.2.1",
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}
