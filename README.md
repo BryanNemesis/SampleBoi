@@ -1,7 +1,15 @@
 # Readme
 
-## setup ddb local
 
-```bash
-aws dynamodb create-table --table-name samples_table --attribute-definitions AttributeName=id,AttributeType=S --key-schema AttributeName=id,KeyType=HASH --billing-mode PAY_PER_REQUEST --endpoint-url http://localhost:8000
+## Development of api
+
+although api is run in docker, you can install packages locally for editor support
+create a venv with pdm:
 ```
+pdm venv create 3.11
+```
+activate the venv and install packages
+```
+pdm sync
+```
+voila

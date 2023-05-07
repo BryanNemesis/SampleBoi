@@ -2,10 +2,10 @@ services:
   api:
     image: sampleboi-api
     env_file:
-      - ./api2/.env.dev
-    build: ./api2
+      - ./api/.env.dev
+    build: ./api
     volumes:
-      - ./api2:/app
+      - ./api:/app
       - /app/__pypackages__
     ports:
       - 80:80
