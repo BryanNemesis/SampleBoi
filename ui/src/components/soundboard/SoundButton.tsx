@@ -43,7 +43,7 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
           <div className="absolute mt-5 h-32 w-32 animate-pulse rounded-md bg-transparent slate-glow"></div>
         )}
         <div
-          onClick={sample.mode === "oneshot" ? oneshotPlay : startStopPlay}
+          onClick={sample.mode === "ONESHOT" ? oneshotPlay : startStopPlay}
           className="absolute mt-5 h-32 w-32 rounded-md bg-transparent active:slate-glow"
         ></div>
         <div className="flex">
@@ -52,12 +52,12 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
           </div>
           <i
             className={`fa-solid text-xs text-zinc-100 ${
-              sample.mode === "oneshot" ? "fa-gun" : "fa-faucet"
+              sample.mode === "ONESHOT" ? "fa-gun" : "fa-faucet"
             }`}
           ></i>
         </div>
         <div
-          onClick={sample.mode === "oneshot" ? oneshotPlay : startStopPlay}
+          onClick={sample.mode === "ONESHOT" ? oneshotPlay : startStopPlay}
           className={`h-32 w-32 rounded-md border-2 border-zinc-300 ${
             isPlaying && "bg-red-800"
           }`}

@@ -12,4 +12,4 @@ class SampleListSerializer(ModelSerializer):
 class SampleCreateSerializer(ModelSerializer):
     class Meta:
         model = Sample
-        fields = ["name", "mode", "color", "file_url", "time_added", "clicks"]
+        fields = ["name", "mode", "color", "file_url"]

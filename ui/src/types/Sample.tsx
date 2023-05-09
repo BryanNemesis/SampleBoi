@@ -3,6 +3,6 @@ export default interface Sample {
     id: string
     file_url: string
     color: string
-    mode: "oneshot" | "start/stop"
+    mode: "ONESHOT" | "START_STOP"
     clicks: number
 }

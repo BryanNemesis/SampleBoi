@@ -53,7 +53,7 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
   const submitSample = async () => {
     const formData = new FormData()
     Object.entries(sampleData).forEach(([k, v]) => formData.append(k, v))
-    const response = await fetch(`${import.meta.env.VITE_API_URL}samples`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}samples/`, {
       method: "POST",
       mode: "no-cors",
       body: formData,
@@ -82,7 +82,7 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
           label="playback mode"
           handler={setMode}
           type="switcher"
-          options={["oneshot", "start/stop"]}
+          options={["ONESHOT", "START_STOP"]}
         />
         <Input label="color" type="colorpicker" handler={setColor} />
         <SubmitButton handler={submitSample} />
