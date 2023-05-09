@@ -9,7 +9,7 @@ interface Props {
 
 interface SampleData {
   name: string
-  mode: string
+  mode: "ONESHOT" | "START_STOP"
   color: string
   url?: string
   file?: File
@@ -20,7 +20,7 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
   const [sampleData, setSampleData] = useState<SampleData>({
     name: "",
     url: "",
-    mode: "oneshot",
+    mode: "ONESHOT",
     color: "#27272a",
   })
 
@@ -34,7 +34,7 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
     }
   }
 
-  const setMode = (mode: string) => {
+  const setMode = (mode: "ONESHOT" | "START_STOP") => {
     setSampleData({ ...sampleData, mode: mode })
   }
 
@@ -55,7 +55,6 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
     Object.entries(sampleData).forEach(([k, v]) => formData.append(k, v))
     const response = await fetch(`${import.meta.env.VITE_API_URL}samples/`, {
       method: "POST",
-      mode: "no-cors",
       body: formData,
     })
     // TODO: better to append the new sample to the data

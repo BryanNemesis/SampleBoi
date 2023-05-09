@@ -14,7 +14,14 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
     },
   })
 
-  const oneshotPlay: React.MouseEventHandler<HTMLDivElement> = () => {
+  const handleClick = (sample: Sample) => {
+    sample.mode === "ONESHOT" ? oneshotPlay() : startStopPlay()
+    fetch(`${import.meta.env.VITE_API_URL}samples/${sample.id}/add_click/`, {
+      method: "POST",
+    })
+  }
+
+  const oneshotPlay = () => {
     if (isPlaying) {
       stop()
     }
@@ -22,7 +29,7 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
     play()
   }
 
-  const startStopPlay: React.MouseEventHandler<HTMLDivElement> = () => {
+  const startStopPlay = () => {
     if (isPlaying) {
       setIsPlaying(false)
       stop()
@@ -43,7 +50,7 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
           <div className="absolute mt-5 h-32 w-32 animate-pulse rounded-md bg-transparent slate-glow"></div>
         )}
         <div
-          onClick={sample.mode === "ONESHOT" ? oneshotPlay : startStopPlay}
+          onClick={() => handleClick(sample)}
           className="absolute mt-5 h-32 w-32 rounded-md bg-transparent active:slate-glow"
         ></div>
         <div className="flex">
@@ -57,7 +64,7 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
           ></i>
         </div>
         <div
-          onClick={sample.mode === "ONESHOT" ? oneshotPlay : startStopPlay}
+          onClick={() => handleClick(sample)}
           className={`h-32 w-32 rounded-md border-2 border-zinc-300 ${
             isPlaying && "bg-red-800"
           }`}
