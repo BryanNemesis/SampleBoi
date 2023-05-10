@@ -9,7 +9,6 @@ from samples.s3 import upload_file_to_s3
 
 
 class SampleViewSet(ModelViewSet):
-    queryset = Sample.objects.all()
     permission_classes = [AllowAny]
 
     def get_serializer_class(self):
@@ -18,6 +17,23 @@ class SampleViewSet(ModelViewSet):
             if self.request.method == "POST"
             else SampleSerializer
         )
+    
+    def get_queryset(self):
+        qs = Sample.objects.all()
+
+        if self.request.method == "GET":
+            sort_method = self.request.query_params.get('order')
+            if sort_method == 'latest':
+                return qs.order_by('-time_added')
+            if sort_method == 'oldest':
+                return qs.order_by('time_added')
+            if sort_method == 'popular':
+                return qs.order_by('-clicks')
+            if sort_method == 'hipster':
+                return qs.order_by('clicks')
+
+        return qs
+
 
     def create(self, request, *args, **kwargs):
         # for now, strip the url field

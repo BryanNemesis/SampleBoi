@@ -90,7 +90,7 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center text-zinc-100 ">
+    <div className="flex flex-col items-center justify-center text-zinc-100 mb-4 ">
       <div className="w-4/5 rounded-md border border-zinc-400 sm:w-1/2 lg:w-5/12">
         <Opener open={open} toggleOpen={toggleOpen} />
         {open ? inputs() : <div className="p-1"></div>}

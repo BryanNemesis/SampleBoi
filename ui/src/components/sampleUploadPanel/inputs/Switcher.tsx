@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
 interface Props {
-  handler: (option: string) => void
+  // whatever i dont know how to type this
+  handler: (option: any) => void
   options: string[]
 }
 
