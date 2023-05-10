@@ -23,7 +23,7 @@ const App: React.FC = () => {
     <>
       <Header />
       <SampleUploadPanel refreshSamples={getSamples} />
-      <SoundBoardControls setSampleOrder={setSampleOrder} />
+      <SoundBoardControls setSampleOrder={setSampleOrder} sampleOrder={sampleOrder} />
       <SoundBoard samples={samples} />
     </>
   )

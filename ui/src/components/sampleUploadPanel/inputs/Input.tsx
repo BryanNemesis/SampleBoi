@@ -10,9 +10,10 @@ interface Props {
   handler: (arg: any) => void
   placeholder?: string
   options?: string[]
+  defaultValue?: string | number
 }
 
-const Input: React.FC<Props> = ({ label, type, handler, placeholder = '', options = [] }) => {
+const Input: React.FC<Props> = ({ label, type, handler, placeholder = '', options = [], defaultValue }) => {
   const input = (type: string) => {
     switch (type) {
       case 'text':
@@ -20,7 +21,7 @@ const Input: React.FC<Props> = ({ label, type, handler, placeholder = '', option
       case 'filepicker':
         return <FilePicker handler={handler} />
       case 'switcher':
-        return <Switcher handler={handler} options={options} />
+        return <Switcher handler={handler} options={options} defaultPosition={defaultValue as number} />
       case 'colorpicker':
         return <ColorPicker handler={handler} />
     }

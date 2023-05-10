@@ -4,10 +4,11 @@ interface Props {
   // whatever i dont know how to type this
   handler: (option: any) => void
   options: string[]
+  defaultPosition?: number
 }
 
-const Switcher: React.FC<Props> = ({ handler, options }) => {
-  const [position, setPosition] = useState(0)
+const Switcher: React.FC<Props> = ({ handler, options, defaultPosition = 0 }) => {
+  const [position, setPosition] = useState(defaultPosition)
 
   const handleClick = () => {
     position + 1 === options.length ? setPosition(0) : setPosition(position => position + 1)
