@@ -23,6 +23,7 @@ dependencies = [
     "django-extensions>=3.2.1",
     "django-cors-headers>=3.14.0",
     "boto3>=1.26.129",
+    "faker>=18.7.0",
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}
