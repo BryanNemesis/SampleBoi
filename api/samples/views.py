@@ -10,7 +10,7 @@ from samples.s3 import upload_file_to_s3
 
 
 class Pagination(PageNumberPagination):
-    page_size = 48
+    page_size = 96
 
 
 class SampleViewSet(ModelViewSet):

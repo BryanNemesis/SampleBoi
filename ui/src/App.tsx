@@ -19,10 +19,13 @@ const App: React.FC = () => {
     const response = await fetch(
       `${
         import.meta.env.VITE_API_URL
-      }samples/?order=${sampleOrder}&page=${samplePage}`
+      }samples/?order=${sampleOrder}&page=1`
     )
-    const data = await response.json()
-    setSamples(data.results)
+    const { results, next } = await response.json()
+    setSamples(results)
+    if (next === null) {
+      setAllSamplesLoaded(true)
+    }
   }
 
   const getMoreSamples = async () => {
@@ -46,6 +49,8 @@ const App: React.FC = () => {
   useBottomScrollListener(getMoreSamples)
 
   useEffect(() => {
+    setSamplePage(1)
+    setAllSamplesLoaded(false)
     getSamples()
   }, [sampleOrder])
 
