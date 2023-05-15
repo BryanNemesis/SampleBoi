@@ -4,7 +4,7 @@ import { useBottomScrollListener } from "react-bottom-scroll-listener"
 import SoundBoard from "./components/soundboard/SoundBoard"
 import Header from "./components/header/Header"
 import SampleUploadPanel from "./components/sampleUploadPanel/SampleUploadPanel"
-import Sample from "./types/Sample"
+import { Sample } from "./types/Sample"
 import SoundBoardControls, {
   SampleOrder,
 } from "./components/soundboardControls/SoundBoardControls"
@@ -46,6 +46,10 @@ const App: React.FC = () => {
     }
   }
 
+  const addSample = async (sample: Sample) => {
+    setSamples(samples => [sample, ...samples])
+  }
+
   useBottomScrollListener(getMoreSamples)
 
   useEffect(() => {
@@ -57,7 +61,7 @@ const App: React.FC = () => {
   return (
     <>
       <Header />
-      <SampleUploadPanel refreshSamples={getSamples} />
+      <SampleUploadPanel addSampleToBoard={addSample} />
       <SoundBoardControls
         setSampleOrder={setSampleOrder}
         sampleOrder={sampleOrder}

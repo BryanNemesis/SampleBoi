@@ -2,36 +2,23 @@ import { useState } from "react"
 import Input from "./inputs/Input"
 import SubmitButton from "./SubmitButton"
 import Opener from "../common/Opener"
+import { Sample, SampleStub } from "../../types/Sample"
 
 interface Props {
-  refreshSamples: () => void
+  addSampleToBoard: (sample: Sample)  => void
 }
 
-interface SampleData {
-  name: string
-  mode: "ONESHOT" | "START_STOP"
-  color: string
-  url?: string
-  file?: File
-}
-
-const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
+const SampleUploadPanel: React.FC<Props> = ({ addSampleToBoard }) => {
   const [open, setOpen] = useState(false)
-  const [sampleData, setSampleData] = useState<SampleData>({
+  const [loading, setLoading] = useState(false)
+  const [sampleData, setSampleData] = useState<SampleStub>({
     name: "",
-    url: "",
     mode: "ONESHOT",
     color: "#27272a",
   })
 
   const setName = (name: string) => {
     setSampleData({ ...sampleData, name: name })
-  }
-
-  const setUrl = (url: string) => {
-    if (url) {
-      setSampleData({ ...sampleData, url: url })
-    }
   }
 
   const setMode = (mode: "ONESHOT" | "START_STOP") => {
@@ -51,14 +38,16 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
   }
 
   const submitSample = async () => {
+    setLoading(true)
     const formData = new FormData()
     Object.entries(sampleData).forEach(([k, v]) => formData.append(k, v))
     const response = await fetch(`${import.meta.env.VITE_API_URL}samples/`, {
       method: "POST",
       body: formData,
     })
-    // TODO: better to append the new sample to the data
-    refreshSamples()
+    const result = await response.json()
+    addSampleToBoard(result)
+    setLoading(false)
   }
 
   const inputs = () => {
@@ -72,19 +61,13 @@ const SampleUploadPanel: React.FC<Props> = ({ refreshSamples }) => {
         />
         <Input label="from file" type="filepicker" handler={setFile} />
         <Input
-          label="from youtube"
-          type="text"
-          handler={setUrl}
-          placeholder="vid url"
-        />
-        <Input
           label="playback mode"
           handler={setMode}
           type="switcher"
           options={["ONESHOT", "START_STOP"]}
         />
         <Input label="color" type="colorpicker" handler={setColor} />
-        <SubmitButton handler={submitSample} />
+        <SubmitButton handler={submitSample} loading={loading} />
       </div>
     )
   }
