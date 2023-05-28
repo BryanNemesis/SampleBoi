@@ -81,7 +81,7 @@ const App: React.FC = () => {
           sampleOrder={sampleOrder}
         />
       </div>
-      <div className="mt-56">
+      <div className="mt-40 sm:mt-48 lg:mt-56">
         <SoundBoard samples={samples} loading={loading} />
       </div>
     </>
