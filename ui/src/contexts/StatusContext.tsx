@@ -4,17 +4,35 @@ type Status = { type: "success" | "info" | "error"; text: string }
 
 type StatusContextType = {
   status: Status
-  setStatus: (status: Status) => void
+  setIntermittentStatus: (status: Status, durationMs?: number) => void
+  setPermanentStatus: (status: Status) => void
 }
 
-const initialStatus: Status = { type: "info", text: "welcome" }
+const initialStatus: Status = { type: "info", text: "" }
 
 export const StatusContext = createContext<StatusContextType>({
   status: initialStatus,
-  setStatus: () => {},
+  setIntermittentStatus: () => {},
+  setPermanentStatus: () => {},
 })
 
 export const StatusProvider = (props: React.PropsWithChildren) => {
+  const [msgTimeoutId, setMsgTimeoutId] = useState(0)
   const [status, setStatus] = useState(initialStatus)
-  return <StatusContext.Provider value={{ status, setStatus }} {...props} />
+
+  const setIntermittentStatus = (status: Status, durationMs: number = 2000) => {
+    clearTimeout(msgTimeoutId)
+    setStatus(status)
+    setMsgTimeoutId(
+      setTimeout(() => setStatus({ type: "info", text: "" }), durationMs)
+    )
+    console.log(`timeout id: ${msgTimeoutId}`)
+  }
+
+  return (
+    <StatusContext.Provider
+      value={{ status, setIntermittentStatus, setPermanentStatus: setStatus }}
+      {...props}
+    />
+  )
 }

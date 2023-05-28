@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { StatusContext } from "../../contexts/StatusContext"
 
 const Header: React.FC = () => {
