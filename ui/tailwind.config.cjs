@@ -41,8 +41,8 @@ module.exports = {
         '.slate-glow': {
           'box-shadow': '#f8fafc 0 0 32px, #e2e8f0 0 0 96px, #e2e8f0 0 0 96px inset',
         },
-        '.lime-glow': {
-          'box-shadow': '#d9f99d 0 0 32px, #ecfccb 0 0 96px, #d9f99d 0 0 96px inset',
+        '.text-glow': {
+          'text-shadow': '0 0 5px #4d7c0f;',
         },
         '.bg-wavy-rose': {
           'background-color': '#fffbeb',
