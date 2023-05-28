@@ -66,14 +66,14 @@ const App: React.FC = () => {
   useEffect(() => {
     loading
       ? setPermanentStatus({ type: "info", text: "loading" })
-      : setIntermittentStatus({ type: "info", text: "ready" }, 5000)
+      : setIntermittentStatus({ type: "info", text: "sampleboi ready to rock!!!!!" }, 5000)
   }, [loading])
 
   useBottomScrollListener(getMoreSamples)
 
   return (
     <>
-      <div className="fixed top-0 w-full border-b-2 border-black bg-zinc-900">
+      <div className="sticky top-0 w-full border-b-2 border-black bg-zinc-900">
         <Header />
         <SampleUploadPanel addSampleToBoard={addSample} />
         <SoundBoardControls
@@ -81,9 +81,7 @@ const App: React.FC = () => {
           sampleOrder={sampleOrder}
         />
       </div>
-      <div className="mt-40 sm:mt-48 lg:mt-56">
         <SoundBoard samples={samples} loading={loading} />
-      </div>
     </>
   )
 }
