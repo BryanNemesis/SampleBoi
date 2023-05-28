@@ -73,13 +73,17 @@ const App: React.FC = () => {
 
   return (
     <>
+      <div className="fixed top-0 w-full border-b-2 border-black bg-zinc-900">
         <Header />
         <SampleUploadPanel addSampleToBoard={addSample} />
         <SoundBoardControls
           setSampleOrder={setSampleOrder}
           sampleOrder={sampleOrder}
         />
+      </div>
+      <div className="mt-48">
         <SoundBoard samples={samples} loading={loading} />
+      </div>
     </>
   )
 }
