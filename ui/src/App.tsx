@@ -8,7 +8,7 @@ import { Sample } from "./types/Sample"
 import SoundBoardControls, {
   SampleOrder,
 } from "./components/soundboardControls/SoundBoardControls"
-import { StatusProvider } from "./StatusContext"
+import { StatusProvider } from "./contexts/StatusContext"
 
 const App: React.FC = () => {
   const [samples, setSamples] = useState<Sample[]>([])

@@ -1,7 +1,7 @@
 import useSound from "use-sound"
 import { useContext, useState } from "react"
 import { Sample } from "../../types/Sample"
-import { StatusContext } from "../../StatusContext"
+import { StatusContext } from "../../contexts/StatusContext"
 
 interface Props {
   sample: Sample

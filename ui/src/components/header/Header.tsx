@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { StatusContext } from "../../StatusContext"
+import { StatusContext } from "../../contexts/StatusContext"
 
 const Header: React.FC = () => {
   const { status } = useContext(StatusContext)
