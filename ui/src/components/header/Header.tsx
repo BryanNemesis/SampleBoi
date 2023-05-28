@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { StatusContext } from "../../contexts/StatusContext"
 
 const Header: React.FC = () => {
-  const { status } = useContext(StatusContext)
+  const { statusMsg } = useContext(StatusContext)
 
   return (
     <div className="flex items-center justify-between p-4 sm:p-8">
@@ -15,7 +15,7 @@ const Header: React.FC = () => {
         placeholder-lime-800 text-glow
         lg:w-1/3"
       >
-        {status.text}
+        {statusMsg}
       </h1>
     </div>
   )

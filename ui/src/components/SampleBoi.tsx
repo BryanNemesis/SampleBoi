@@ -11,7 +11,7 @@ import SoundBoardControls, {
 import { StatusContext } from "../contexts/StatusContext"
 
 const App: React.FC = () => {
-  const { setIntermittentStatus, setPermanentStatus } =
+  const { setIntermittentStatusMsg, setPermanentStatusMsg } =
     useContext(StatusContext)
 
   const [samples, setSamples] = useState<Sample[]>([])
@@ -65,8 +65,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     loading
-      ? setPermanentStatus({ type: "info", text: "loading" })
-      : setIntermittentStatus({ type: "info", text: "sampleboi ready to rock!!!!!" }, 5000)
+      ? setPermanentStatusMsg("loading")
+      : setIntermittentStatusMsg("sampleboi ready to rock!!!!!", 5000)
   }, [loading])
 
   useBottomScrollListener(getMoreSamples)

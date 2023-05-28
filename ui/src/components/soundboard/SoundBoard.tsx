@@ -10,7 +10,7 @@ interface Props {
 }
 
 const SoundBoard: React.FC<Props> = ({ samples, loading }) => {
-  const { setPlayingSamplesStatus } = useContext(StatusContext)
+  const { setPlayingSamplesStatusMsg } = useContext(StatusContext)
   const [playingSamples, setPlayingSamples] = useState<Sample[]>([])
 
   const addPlayingSample = (sample: Sample) => {
@@ -22,7 +22,7 @@ const SoundBoard: React.FC<Props> = ({ samples, loading }) => {
   }
 
   useEffect(() => {
-    setPlayingSamplesStatus(playingSamples)
+    setPlayingSamplesStatusMsg(playingSamples)
   }, [playingSamples])
 
   const buttons = [

@@ -1,14 +1,17 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Input from "./inputs/Input"
 import SubmitButton from "./SubmitButton"
 import Opener from "../common/Opener"
 import { Sample, SampleStub } from "../../types/Sample"
+import { StatusContext } from "../../contexts/StatusContext"
 
 interface Props {
   addSampleToBoard: (sample: Sample) => void
 }
 
 const SampleUploadPanel: React.FC<Props> = ({ addSampleToBoard }) => {
+  const { setErrorMsg, setSuccessMsg } = useContext(StatusContext)
+
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [sampleData, setSampleData] = useState<SampleStub>({
@@ -45,8 +48,12 @@ const SampleUploadPanel: React.FC<Props> = ({ addSampleToBoard }) => {
       method: "POST",
       body: formData,
     })
-    const result = await response.json()
-    addSampleToBoard(result)
+    // TODO: handle errors
+    if (response.ok) {
+      const result = await response.json()
+      addSampleToBoard(result)
+      setSuccessMsg('sample added!!!')
+    }
     setLoading(false)
   }
 
