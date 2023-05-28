@@ -1,23 +1,33 @@
 import useSound from "use-sound"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { Sample } from "../../types/Sample"
-import { StatusContext } from "../../contexts/StatusContext"
 
 interface Props {
   sample: Sample
+  addPlayingSample: (sample: Sample) => void
+  removePlayingSample: (sample: Sample) => void
 }
 
-const SoundButton: React.FC<Props> = ({ sample }) => {
-  const { setIntermittentStatus } = useContext(StatusContext)
+const SoundButton: React.FC<Props> = ({ sample, addPlayingSample, removePlayingSample }) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [play, { stop }] = useSound(sample.file_url, {
+    onplay: () => {
+      if (!isPlaying) {
+        addPlayingSample(sample)
+      }
+      setIsPlaying(true)
+    },
     onend: () => {
+      removePlayingSample(sample)
+      setIsPlaying(false)
+    },
+    onstop: () => {
+      removePlayingSample(sample)
       setIsPlaying(false)
     },
   })
 
   const handleClick = (sample: Sample) => {
-    setIntermittentStatus({ type: "info", text: sample.name })
     sample.mode === "ONESHOT" ? oneshotPlay() : startStopPlay()
     fetch(`${import.meta.env.VITE_API_URL}samples/${sample.id}/add_click/`, {
       method: "POST",
@@ -28,16 +38,13 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
     if (isPlaying) {
       stop()
     }
-    setIsPlaying(true)
     play()
   }
 
   const startStopPlay = () => {
     if (isPlaying) {
-      setIsPlaying(false)
       stop()
     } else {
-      setIsPlaying(true)
       play()
     }
   }

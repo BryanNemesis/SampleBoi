@@ -1,6 +1,8 @@
+import { useContext, useEffect, useState } from "react"
 import { Sample } from "../../types/Sample"
 import LoadingButton from "./LoadingButton"
 import SoundButton from "./SoundButton"
+import { StatusContext } from "../../contexts/StatusContext"
 
 interface Props {
   samples: Sample[]
@@ -8,8 +10,23 @@ interface Props {
 }
 
 const SoundBoard: React.FC<Props> = ({ samples, loading }) => {
+  const { setPlayingSamplesStatus } = useContext(StatusContext)
+  const [playingSamples, setPlayingSamples] = useState<Sample[]>([])
+
+  const addPlayingSample = (sample: Sample) => {
+    setPlayingSamples(samples => [...samples, sample])
+  }
+
+  const removePlayingSample = (sample: Sample) => {
+    setPlayingSamples(samples => samples.filter(s => s.id !== sample.id))
+  }
+
+  useEffect(() => {
+    setPlayingSamplesStatus(playingSamples)
+  }, [playingSamples])
+
   const buttons = [
-    ...samples.map((sample) => <SoundButton key={sample.id} sample={sample} />),
+    ...samples.map((sample) => <SoundButton key={sample.id} sample={sample} addPlayingSample={addPlayingSample} removePlayingSample={removePlayingSample} />),
     loading && <LoadingButton key='loading' />
   ]
 
