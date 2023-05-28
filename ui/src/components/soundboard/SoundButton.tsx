@@ -1,12 +1,14 @@
 import useSound from "use-sound"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Sample } from "../../types/Sample"
+import { StatusContext } from "../../StatusContext"
 
 interface Props {
   sample: Sample
 }
 
 const SoundButton: React.FC<Props> = ({ sample }) => {
+  const { setStatus } = useContext(StatusContext)
   const [isPlaying, setIsPlaying] = useState(false)
   const [play, { stop }] = useSound(sample.file_url, {
     onend: () => {
@@ -15,6 +17,7 @@ const SoundButton: React.FC<Props> = ({ sample }) => {
   })
 
   const handleClick = (sample: Sample) => {
+    setStatus({ type: "info", text: sample.name })
     sample.mode === "ONESHOT" ? oneshotPlay() : startStopPlay()
     fetch(`${import.meta.env.VITE_API_URL}samples/${sample.id}/add_click/`, {
       method: "POST",

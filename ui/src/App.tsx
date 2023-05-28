@@ -8,6 +8,7 @@ import { Sample } from "./types/Sample"
 import SoundBoardControls, {
   SampleOrder,
 } from "./components/soundboardControls/SoundBoardControls"
+import { StatusProvider } from "./StatusContext"
 
 const App: React.FC = () => {
   const [samples, setSamples] = useState<Sample[]>([])
@@ -63,13 +64,15 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <SampleUploadPanel addSampleToBoard={addSample} />
-      <SoundBoardControls
-        setSampleOrder={setSampleOrder}
-        sampleOrder={sampleOrder}
-      />
-      <SoundBoard samples={samples} loading={loading} />
+      <StatusProvider>
+        <Header />
+        <SampleUploadPanel addSampleToBoard={addSample} />
+        <SoundBoardControls
+          setSampleOrder={setSampleOrder}
+          sampleOrder={sampleOrder}
+        />
+        <SoundBoard samples={samples} loading={loading} />
+      </StatusProvider>
     </>
   )
 }
