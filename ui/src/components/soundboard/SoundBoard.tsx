@@ -1,14 +1,17 @@
-import Sample from "../../types/Sample"
+import { Sample } from "../../types/Sample"
+import LoadingButton from "./LoadingButton"
 import SoundButton from "./SoundButton"
 
 interface Props {
   samples: Sample[]
+  loading: boolean
 }
 
-const SoundBoard: React.FC<Props> = ({ samples }) => {
-  const buttons = samples.map((sample) => (
-    <SoundButton key={sample.id} sample={sample}/>
-  ))
+const SoundBoard: React.FC<Props> = ({ samples, loading }) => {
+  const buttons = [
+    ...samples.map((sample) => <SoundButton key={sample.id} sample={sample} />),
+    loading && <LoadingButton />
+  ]
 
   return (
     <div

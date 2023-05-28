@@ -1,6 +1,6 @@
 import useSound from "use-sound"
 import { useState } from "react"
-import Sample from "../../types/Sample"
+import { Sample } from "../../types/Sample"
 
 interface Props {
   sample: Sample

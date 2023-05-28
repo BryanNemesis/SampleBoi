@@ -12,26 +12,28 @@ import SoundBoardControls, {
 const App: React.FC = () => {
   const [samples, setSamples] = useState<Sample[]>([])
   const [sampleOrder, setSampleOrder] = useState<SampleOrder>("latest")
-  const [samplePage, setSamplePage] = useState<number>(1)
-  const [allSamplesLoaded, setAllSamplesLoaded] = useState<boolean>(false)
+  const [samplePage, setSamplePage] = useState(1)
+  const [allSamplesLoaded, setAllSamplesLoaded] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const getSamples = async () => {
+    setLoading(true)
     const response = await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }samples/?order=${sampleOrder}&page=1`
+      `${import.meta.env.VITE_API_URL}samples/?order=${sampleOrder}&page=1`
     )
     const { results, next } = await response.json()
     setSamples(results)
     if (next === null) {
       setAllSamplesLoaded(true)
     }
+    setLoading(false)
   }
 
   const getMoreSamples = async () => {
     if (allSamplesLoaded) {
       return
     }
+    setLoading(true)
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}samples/?order=${sampleOrder}&page=${
         samplePage + 1
@@ -44,19 +46,20 @@ const App: React.FC = () => {
     if (next === null) {
       setAllSamplesLoaded(true)
     }
+    setLoading(false)
   }
 
   const addSample = async (sample: Sample) => {
-    setSamples(samples => [sample, ...samples])
+    setSamples((samples) => [sample, ...samples])
   }
-
-  useBottomScrollListener(getMoreSamples)
 
   useEffect(() => {
     setSamplePage(1)
     setAllSamplesLoaded(false)
     getSamples()
   }, [sampleOrder])
+
+  useBottomScrollListener(getMoreSamples)
 
   return (
     <>
@@ -66,7 +69,7 @@ const App: React.FC = () => {
         setSampleOrder={setSampleOrder}
         sampleOrder={sampleOrder}
       />
-      <SoundBoard samples={samples} />
+      <SoundBoard samples={samples} loading={loading} />
     </>
   )
 }
