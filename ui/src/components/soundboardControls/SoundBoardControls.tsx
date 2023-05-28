@@ -19,7 +19,7 @@ const SoundBoardControls: React.FC<Props> = ({ setSampleOrder, sampleOrder }) =>
   const options = ["latest", "oldest", "popular", "hipster"]
 
   return (
-    <div className="mb-4 flex flex-col items-center justify-center text-sm uppercase text-zinc-100">
+    <div className="mb-6 flex flex-col items-center justify-center text-sm uppercase text-zinc-100">
       <div className="w-4/5 rounded-md border border-zinc-400 sm:w-1/2 lg:w-5/12">
         <Opener open={open} toggleOpen={toggleOpen} label="controls" />
         {open ? (
