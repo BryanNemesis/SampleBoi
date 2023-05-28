@@ -10,7 +10,7 @@ interface Props {
 const SoundBoard: React.FC<Props> = ({ samples, loading }) => {
   const buttons = [
     ...samples.map((sample) => <SoundButton key={sample.id} sample={sample} />),
-    loading && <LoadingButton />
+    loading && <LoadingButton key='loading' />
   ]
 
   return (
