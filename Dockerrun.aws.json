@@ -1,0 +1,38 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+        {
+          "name": "sampleboi-ui",
+          "host": {
+            "sourcePath": "/var/app/ui"
+          }
+        },
+        {
+            "name": "sampleboi-api",
+            "host": {
+              "sourcePath": "/var/app/api"
+            }
+          }
+      ],
+    "containerDefinitions": [
+      {
+        "name": "sampleboi-ui",
+        "image": "789983344423.dkr.ecr.eu-west-1.amazonaws.com/sampleboi-ui-ecr-repo:latest",
+        "environment": [
+          {
+            "name": "VITE_API_URL",
+            "value": "https://www.sampleboi.bryannemesis.de/api"
+          }
+        ],
+        "essential": true,
+        "memory": 128,
+        "mountPoints": [
+          {
+            "sourceVolume": "sampleboi-ui",
+            "containerPath": "/app",
+            "readOnly": true
+          }
+        ]
+      }
+    ]
+  }
