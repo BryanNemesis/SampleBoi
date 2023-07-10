@@ -28,7 +28,7 @@ export class InfraStack extends cdk.Stack {
     const cert = Certificate.fromCertificateArn(
       this,
       'Certificate',
-      'arn:aws:acm:eu-west-1:789983344423:certificate/7cd99932-f81e-459c-b77e-b87cb8222b9d'
+      'arn:aws:acm:eu-west-1:789983344423:certificate/f52a1d8f-e90f-4110-ad29-c9311b4e826a'
     )
     const httpListener = loadBalancer.addListener('PublicListener', {
       protocol: ApplicationProtocol.HTTP,
@@ -66,7 +66,7 @@ export class InfraStack extends cdk.Stack {
       priority: 10,
       conditions: [
         // can we add a wildcard at the end of the url?
-        ListenerCondition.hostHeaders(['sampleboi-api.bryannemesis.de']),
+        ListenerCondition.hostHeaders(['sampleboi-api.bryannemesis.com']),
       ],
       healthCheck: {
         path: '/health',

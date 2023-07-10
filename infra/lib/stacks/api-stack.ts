@@ -11,7 +11,6 @@ import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets'
 import {
   ApplicationListener,
   ApplicationLoadBalancer,
-  ApplicationProtocol,
 } from 'aws-cdk-lib/aws-elasticloadbalancingv2'
 import { PublicHostedZone, CnameRecord } from 'aws-cdk-lib/aws-route53'
 
@@ -38,8 +37,8 @@ export class ApiStack extends cdk.NestedStack {
       memoryLimitMiB: 256,
       logging: new AwsLogDriver({ streamPrefix: 'SampleboiApiContainerLogs' }),
       environment: {
-        DJANGO_ALLOWED_HOSTS: "sampleboi.bryannemesis.de",
-        CORS_ALLOWED_ORIGINS: "https://sampleboi.bryannemesis.de",
+        DJANGO_ALLOWED_HOSTS: "sampleboi.bryannemesis.com",
+        CORS_ALLOWED_ORIGINS: "https://sampleboi.bryannemesis.com",
         // SECRET_KEY: ""
       },
     })
@@ -54,13 +53,13 @@ export class ApiStack extends cdk.NestedStack {
     })
 
     const zone = PublicHostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-      hostedZoneId: 'Z04908875U9LYDOBWV0',
-      zoneName: 'bryannemesis.de',
+      hostedZoneId: 'Z0884360360VTDLNX88R',
+      zoneName: 'bryannemesis.com',
     })
 
     new CnameRecord(this, 'SampleboiApiLoadBalancerRecord', {
       domainName: props.loadBalancer.loadBalancerDnsName,
-      recordName: 'sampleboi-api.bryannemesis.de',
+      recordName: 'sampleboi-api.bryannemesis.com',
       zone,
     })
   }
