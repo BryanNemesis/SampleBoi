@@ -15,28 +15,28 @@ import {
 } from 'aws-cdk-lib/aws-elasticloadbalancingv2'
 import { CnameRecord, PublicHostedZone } from 'aws-cdk-lib/aws-route53'
 
-interface FrontendStackProps extends cdk.NestedStackProps {
+interface UiStackProps extends cdk.NestedStackProps {
   cluster: Cluster
   loadBalancer: ApplicationLoadBalancer
   httpsListener: ApplicationListener
 }
 
-export class FrontendStack extends cdk.NestedStack {
+export class UiStack extends cdk.NestedStack {
   public readonly service: FargateService
 
-  constructor(scope: Construct, id: string, props: FrontendStackProps) {
+  constructor(scope: Construct, id: string, props: UiStackProps) {
     super(scope, id, props)
-    const frontendImage = new DockerImageAsset(this, 'SampleboiFrontendImage', {
-      directory: `../frontend`,
+    const uiImage = new DockerImageAsset(this, 'SampleboiUiImage', {
+      directory: `../ui`,
       platform: Platform.LINUX_AMD64,
     })
 
-    const frontendTaskDefinition = new FargateTaskDefinition(this, 'SampleboiFrontendTaskDef')
+    const uiTaskDefinition = new FargateTaskDefinition(this, 'SampleboiUiTaskDef')
 
-    const frontendContainer = frontendTaskDefinition.addContainer('SampleboiFrontendContainer', {
-      image: ContainerImage.fromDockerImageAsset(frontendImage),
+    const uiContainer = uiTaskDefinition.addContainer('SampleboiUiContainer', {
+      image: ContainerImage.fromDockerImageAsset(uiImage),
       memoryLimitMiB: 256,
-      logging: new AwsLogDriver({ streamPrefix: 'SampleboiFrontendContainerLogs' }),
+      logging: new AwsLogDriver({ streamPrefix: 'SampleboiUiContainerLogs' }),
       environment: {
         VITE_API_URL: 'https://sampleboi-api.bryannemesis.de/',
       },
@@ -45,13 +45,13 @@ export class FrontendStack extends cdk.NestedStack {
       },
     })
 
-    frontendContainer.addPortMappings({
+    uiContainer.addPortMappings({
       containerPort: 5173,
     })
 
-    this.service = new FargateService(this, 'SampleboiFrontendEcsService', {
+    this.service = new FargateService(this, 'SampleboiUiEcsService', {
       cluster: props.cluster,
-      taskDefinition: frontendTaskDefinition,
+      taskDefinition: uiTaskDefinition,
     })
 
     const zone = PublicHostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
@@ -59,7 +59,7 @@ export class FrontendStack extends cdk.NestedStack {
       zoneName: 'bryannemesis.de',
     })
 
-    new CnameRecord(this, 'SampleboiFrontendLoadBalancerRecord', {
+    new CnameRecord(this, 'SampleboiUiLoadBalancerRecord', {
       domainName: props.loadBalancer.loadBalancerDnsName,
       recordName: 'sampleboi.bryannemesis.de',
       zone,

@@ -1,8 +1,8 @@
 import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { Cluster } from 'aws-cdk-lib/aws-ecs'
-import { BackendStack } from './stacks/backend-stack'
-import { FrontendStack } from './stacks/frontend-stack'
+import { ApiStack } from './stacks/api-stack'
+import { UiStack } from './stacks/ui-stack'
 import { BucketStack } from './stacks/bucket-stack'
 import { Vpc } from 'aws-cdk-lib/aws-ec2'
 import {
@@ -49,20 +49,20 @@ export class InfraStack extends cdk.Stack {
 
     const cluster = new Cluster(this, 'SampleboiEcsCluster', { vpc })
 
-    const backendStack = new BackendStack(this, 'SampleboiBackendStack', {
+    const apiStack = new ApiStack(this, 'SampleboiApiStack', {
       cluster,
       loadBalancer,
       httpsListener,
     })
-    const frontendStack = new FrontendStack(this, 'SampleboiFrontendStack', {
+    const uiStack = new UiStack(this, 'SampleboiUiStack', {
       cluster,
       loadBalancer,
       httpsListener,
     })
 
-    httpsListener.addTargets('SampleboiBackendEcsTarget', {
+    httpsListener.addTargets('SampleboiApiEcsTarget', {
       protocol: ApplicationProtocol.HTTP,
-      targets: [backendStack.service],
+      targets: [apiStack.service],
       priority: 10,
       conditions: [
         // can we add a wildcard at the end of the url?
@@ -73,9 +73,9 @@ export class InfraStack extends cdk.Stack {
       },
     })
 
-    httpsListener.addTargets('SampleboiFrontendEcsTarget', {
+    httpsListener.addTargets('SampleboiUiEcsTarget', {
       protocol: ApplicationProtocol.HTTP,
-      targets: [frontendStack.service],
+      targets: [uiStack.service],
       healthCheck: {
         path: '/health',
       },

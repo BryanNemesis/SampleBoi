@@ -15,37 +15,42 @@ import {
 } from 'aws-cdk-lib/aws-elasticloadbalancingv2'
 import { PublicHostedZone, CnameRecord } from 'aws-cdk-lib/aws-route53'
 
-interface BackendStackProps extends cdk.NestedStackProps {
+interface ApiStackProps extends cdk.NestedStackProps {
   cluster: Cluster
   loadBalancer: ApplicationLoadBalancer
   httpsListener: ApplicationListener
 }
 
-export class BackendStack extends cdk.NestedStack {
+export class ApiStack extends cdk.NestedStack {
   public readonly service: FargateService
 
-  constructor(scope: Construct, id: string, props: BackendStackProps) {
+  constructor(scope: Construct, id: string, props: ApiStackProps) {
     super(scope, id, props)
-    const backendImage = new DockerImageAsset(this, 'SampleboiBackendImage', {
-      directory: `../backend`,
+    const apiImage = new DockerImageAsset(this, 'SampleboiApiImage', {
+      directory: `../api`,
       platform: Platform.LINUX_AMD64,
     })
 
-    const backendTaskDefinition = new FargateTaskDefinition(this, 'SampleboiBackendTaskDef')
+    const apiTaskDefinition = new FargateTaskDefinition(this, 'SampleboiApiTaskDef')
 
-    const backendContainer = backendTaskDefinition.addContainer('SampleboiBackendContainer', {
-      image: ContainerImage.fromDockerImageAsset(backendImage),
+    const apiContainer = apiTaskDefinition.addContainer('SampleboiApiContainer', {
+      image: ContainerImage.fromDockerImageAsset(apiImage),
       memoryLimitMiB: 256,
-      logging: new AwsLogDriver({ streamPrefix: 'SampleboiBackendContainerLogs' }),
+      logging: new AwsLogDriver({ streamPrefix: 'SampleboiApiContainerLogs' }),
+      environment: {
+        DJANGO_ALLOWED_HOSTS: "sampleboi.bryannemesis.de",
+        CORS_ALLOWED_ORIGINS: "https://sampleboi.bryannemesis.de",
+        // SECRET_KEY: ""
+      },
     })
 
-    backendContainer.addPortMappings({
+    apiContainer.addPortMappings({
       containerPort: 80,
     })
 
-    this.service = new FargateService(this, 'SampleboiBackendEcsService', {
+    this.service = new FargateService(this, 'SampleboiApiEcsService', {
       cluster: props.cluster,
-      taskDefinition: backendTaskDefinition,
+      taskDefinition: apiTaskDefinition,
     })
 
     const zone = PublicHostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
@@ -53,7 +58,7 @@ export class BackendStack extends cdk.NestedStack {
       zoneName: 'bryannemesis.de',
     })
 
-    new CnameRecord(this, 'SampleboiBackendLoadBalancerRecord', {
+    new CnameRecord(this, 'SampleboiApiLoadBalancerRecord', {
       domainName: props.loadBalancer.loadBalancerDnsName,
       recordName: 'sampleboi-api.bryannemesis.de',
       zone,
