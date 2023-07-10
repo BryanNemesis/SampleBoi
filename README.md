@@ -22,6 +22,8 @@ docker-compose up
 
 App is now accessible under localhost:5173.
 
+To add some samples, run pdm run manage.py add_samples inside the api container.
+
 ## Development of api
 
 In the API, PDM is used as package manager. This means that some stuff is done differently than usually.
