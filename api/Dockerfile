@@ -7,6 +7,7 @@ WORKDIR /app
 COPY pyproject.toml pdm.lock ./
 RUN mkdir __pypackages__ && pdm install
 COPY . .
+RUN chmod +x /app/docker-entrypoint.sh
 EXPOSE 80
 
-CMD ["pdm", "run", "local_server"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
