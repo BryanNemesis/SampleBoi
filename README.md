@@ -57,3 +57,9 @@ Activate the venv and install packages:
 pdm sync
 ```
 
+## Troubleshooting
+
+```Error response from daemon: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "/app/docker-entrypoint.sh": permission denied: unknown```
+
+Run `chmod +x api/docker-entrypoint.sh` locally, before the images build.
+https://stackoverflow.com/a/69483712
