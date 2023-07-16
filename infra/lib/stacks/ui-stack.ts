@@ -27,6 +27,7 @@ export class UiStack extends cdk.NestedStack {
     super(scope, id, props)
     const uiImage = new DockerImageAsset(this, 'SampleboiUiImage', {
       directory: `../ui`,
+      file: "Dockerfile.prod",
       platform: Platform.LINUX_AMD64,
     })
 
@@ -36,16 +37,13 @@ export class UiStack extends cdk.NestedStack {
       image: ContainerImage.fromDockerImageAsset(uiImage),
       memoryLimitMiB: 256,
       logging: new AwsLogDriver({ streamPrefix: 'SampleboiUiContainerLogs' }),
-      environment: {
-        VITE_API_URL: 'https://sampleboi-api.bryannemesis.com/',
-      },
       healthCheck: {
-        command: ['CMD-SHELL', 'ping -c 1 127.0.0.1:5173'],
+        command: ['CMD-SHELL', 'curl --fail -s 127.0.0.1:80'],
       },
     })
 
     uiContainer.addPortMappings({
-      containerPort: 5173,
+      containerPort: 80,
     })
 
     this.service = new FargateService(this, 'SampleboiUiEcsService', {

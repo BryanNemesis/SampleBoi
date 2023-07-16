@@ -1,6 +1,5 @@
 import { createContext, useState } from "react"
 import { Sample } from "../types/Sample"
-import { omit } from "ramda"
 
 type Status = {
   info: string

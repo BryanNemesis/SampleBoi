@@ -81,7 +81,6 @@ export class InfraStack extends cdk.Stack {
       targets: [apiStack.service],
       priority: 10,
       conditions: [
-        // can we add a wildcard at the end of the url?
         ListenerCondition.hostHeaders(["sampleboi-api.bryannemesis.com"]),
       ],
       healthCheck: {
