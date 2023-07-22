@@ -44,7 +44,14 @@ const App: React.FC = () => {
       }`
     )
 
+    if (response.status === 404) {
+      setAllSamplesLoaded(true)
+      setLoading(false)
+      return
+    }
+
     const { results, next } = await response.json()
+
     setSamples((samples) => [...samples, ...results])
     setSamplePage((samplePage) => samplePage + 1)
     if (next === null) {
@@ -81,7 +88,7 @@ const App: React.FC = () => {
           sampleOrder={sampleOrder}
         />
       </div>
-        <SoundBoard samples={samples} loading={loading} />
+      <SoundBoard samples={samples} loading={loading} />
     </>
   )
 }
