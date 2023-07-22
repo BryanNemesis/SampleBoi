@@ -1,6 +1,7 @@
 import useSound from "use-sound"
 import { useState } from "react"
 import { Sample } from "../../types/Sample"
+import LoadingButton from "./LoadingButton"
 
 interface Props {
   sample: Sample
@@ -8,9 +9,13 @@ interface Props {
   removePlayingSample: (sample: Sample) => void
 }
 
-const SoundButton: React.FC<Props> = ({ sample, addPlayingSample, removePlayingSample }) => {
+const SoundButton: React.FC<Props> = ({
+  sample,
+  addPlayingSample,
+  removePlayingSample,
+}) => {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [play, { stop }] = useSound(sample.file_url, {
+  const [play, { stop, sound }] = useSound(sample.file_url, {
     onplay: () => {
       if (!isPlaying) {
         addPlayingSample(sample)
@@ -27,7 +32,9 @@ const SoundButton: React.FC<Props> = ({ sample, addPlayingSample, removePlayingS
     },
   })
 
-  const handleClick = (sample: Sample) => {
+  const loading = sound?._state !== "loaded"
+
+  function handleClick(sample: Sample) {
     sample.mode === "ONESHOT" ? oneshotPlay() : startStopPlay()
     fetch(`${import.meta.env.VITE_API_URL}samples/${sample.id}/add_click/`, {
       method: "POST",
@@ -55,32 +62,36 @@ const SoundButton: React.FC<Props> = ({ sample, addPlayingSample, removePlayingS
 
   return (
     <>
-      <div>
-        {isPlaying && (
-          <div className="absolute mt-5 h-32 w-32 animate-pulse rounded-md bg-transparent slate-glow"></div>
-        )}
-        <div
-          onClick={() => handleClick(sample)}
-          className="absolute mt-5 h-32 w-32 rounded-md bg-transparent active:slate-glow"
-        ></div>
-        <div className="flex">
-          <div className="m-px flex-1 text-xs uppercase text-zinc-100">
-            {cropText(sample.name)}
+      {loading ? (
+        <LoadingButton />
+      ) : (
+        <div>
+          {isPlaying && (
+            <div className="absolute mt-5 h-32 w-32 animate-pulse rounded-md bg-transparent slate-glow"></div>
+          )}
+          <div
+            onClick={() => handleClick(sample)}
+            className="absolute mt-5 h-32 w-32 rounded-md bg-transparent active:slate-glow"
+          ></div>
+          <div className="flex">
+            <div className="m-px flex-1 text-xs uppercase text-zinc-100">
+              {cropText(sample.name)}
+            </div>
+            <i
+              className={`fa-solid text-xs text-zinc-100 ${
+                sample.mode === "ONESHOT" ? "fa-gun" : "fa-faucet"
+              }`}
+            ></i>
           </div>
-          <i
-            className={`fa-solid text-xs text-zinc-100 ${
-              sample.mode === "ONESHOT" ? "fa-gun" : "fa-faucet"
+          <div
+            onClick={() => handleClick(sample)}
+            className={`h-32 w-32 rounded-md border-2 border-zinc-300 ${
+              isPlaying && "bg-red-800"
             }`}
-          ></i>
+            style={{ backgroundColor: sample.color }}
+          ></div>
         </div>
-        <div
-          onClick={() => handleClick(sample)}
-          className={`h-32 w-32 rounded-md border-2 border-zinc-300 ${
-            isPlaying && "bg-red-800"
-          }`}
-          style={{ backgroundColor: sample.color }}
-        ></div>
-      </div>
+      )}
     </>
   )
 }
