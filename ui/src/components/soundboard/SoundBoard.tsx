@@ -1,33 +1,48 @@
 import { useContext, useEffect, useState } from "react"
 import { Sample } from "../../types/Sample"
-import LoadingButton from "./LoadingButton"
 import SoundButton from "./SoundButton"
 import { StatusContext } from "../../contexts/StatusContext"
 
 interface Props {
   samples: Sample[]
-  loading: boolean
+  handleSamplesBatchLoaded: () => void
 }
 
-const SoundBoard: React.FC<Props> = ({ samples, loading }) => {
+const SoundBoard: React.FC<Props> = ({ samples, handleSamplesBatchLoaded }) => {
   const { setPlayingSamplesStatusMsg } = useContext(StatusContext)
   const [playingSamples, setPlayingSamples] = useState<Sample[]>([])
+  const [loadedSampleIndex, setLoadedSampleIndex] = useState(0)
 
   const addPlayingSample = (sample: Sample) => {
-    setPlayingSamples(samples => [...samples, sample])
+    setPlayingSamples((samples) => [...samples, sample])
   }
 
   const removePlayingSample = (sample: Sample) => {
-    setPlayingSamples(samples => samples.filter(s => s.id !== sample.id))
+    setPlayingSamples((samples) => samples.filter((s) => s.id !== sample.id))
   }
 
   useEffect(() => {
     setPlayingSamplesStatusMsg(playingSamples)
   }, [playingSamples])
 
+  useEffect(() => {
+    if (loadedSampleIndex === samples.length) {
+      handleSamplesBatchLoaded()
+    }
+  }, [loadedSampleIndex])
+
   const buttons = [
-    ...samples.map((sample) => <SoundButton key={sample.id} sample={sample} addPlayingSample={addPlayingSample} removePlayingSample={removePlayingSample} />),
-    loading && <LoadingButton key='loading' />
+    ...samples
+      .slice(0, loadedSampleIndex + 1)
+      .map((sample) => (
+        <SoundButton
+          key={sample.id}
+          sample={sample}
+          addPlayingSample={addPlayingSample}
+          removePlayingSample={removePlayingSample}
+          setLoaded={() => setLoadedSampleIndex((value) => value + 1)}
+        />
+      )),
   ]
 
   return (

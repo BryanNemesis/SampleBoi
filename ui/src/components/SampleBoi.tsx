@@ -17,27 +17,24 @@ const App: React.FC = () => {
   const [samples, setSamples] = useState<Sample[]>([])
   const [sampleOrder, setSampleOrder] = useState<SampleOrder>("latest")
   const [samplePage, setSamplePage] = useState(1)
-  const [allSamplesLoaded, setAllSamplesLoaded] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [allSamplesLoaded, setAllSamplesFetched] = useState(false)
+  const [readyToLoadMoreSamples, setReadyToLoadMoreSamples] = useState(false)
 
   const getSamples = async () => {
-    setLoading(true)
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}samples/?order=${sampleOrder}&page=1`
     )
     const { results, next } = await response.json()
     setSamples(results)
     if (next === null) {
-      setAllSamplesLoaded(true)
+      setAllSamplesFetched(true)
     }
-    setLoading(false)
   }
 
   const getMoreSamples = async () => {
-    if (allSamplesLoaded) {
+    if (allSamplesLoaded || !readyToLoadMoreSamples) {
       return
     }
-    setLoading(true)
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}samples/?order=${sampleOrder}&page=${
         samplePage + 1
@@ -45,8 +42,7 @@ const App: React.FC = () => {
     )
 
     if (response.status === 404) {
-      setAllSamplesLoaded(true)
-      setLoading(false)
+      setAllSamplesFetched(true)
       return
     }
 
@@ -55,9 +51,8 @@ const App: React.FC = () => {
     setSamples((samples) => [...samples, ...results])
     setSamplePage((samplePage) => samplePage + 1)
     if (next === null) {
-      setAllSamplesLoaded(true)
+      setAllSamplesFetched(true)
     }
-    setLoading(false)
   }
 
   const addSample = async (sample: Sample) => {
@@ -66,15 +61,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setSamplePage(1)
-    setAllSamplesLoaded(false)
+    setAllSamplesFetched(false)
     getSamples()
+    setIntermittentStatusMsg('Sampleboi ready to rock XD')
   }, [sampleOrder])
-
-  useEffect(() => {
-    loading
-      ? setPermanentStatusMsg("loading")
-      : setIntermittentStatusMsg("sampleboi ready to rock!!!!!", 5000)
-  }, [loading])
 
   useBottomScrollListener(getMoreSamples)
 
@@ -88,7 +78,12 @@ const App: React.FC = () => {
           sampleOrder={sampleOrder}
         />
       </div>
-      <SoundBoard samples={samples} loading={loading} />
+      <SoundBoard
+        samples={samples}
+        handleSamplesBatchLoaded={() => {
+          setReadyToLoadMoreSamples(true)
+        }}
+      />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import useSound from "use-sound"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Sample } from "../../types/Sample"
 import LoadingButton from "./LoadingButton"
 
@@ -7,12 +7,14 @@ interface Props {
   sample: Sample
   addPlayingSample: (sample: Sample) => void
   removePlayingSample: (sample: Sample) => void
+  setLoaded: () => void
 }
 
 const SoundButton: React.FC<Props> = ({
   sample,
   addPlayingSample,
   removePlayingSample,
+  setLoaded,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [play, { stop, sound }] = useSound(sample.file_url, {
@@ -32,6 +34,9 @@ const SoundButton: React.FC<Props> = ({
     },
   })
 
+  useEffect(() => {
+    sound?._state === "loaded" && setLoaded()
+  }, [sound?._state])
   const loading = sound?._state !== "loaded"
 
   function handleClick(sample: Sample) {
